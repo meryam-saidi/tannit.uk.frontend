@@ -1,0 +1,199 @@
+/* SignupWithEmail.css */
+
+/* General layout, similar to App.css from previous answer */
+.signup-container {
+  display: flex;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.left-panel {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Align content to the top */
+  align-items: center;
+  background-color: #fff;
+  position: relative; /* For absolute positioning of header if needed */
+}
+
+.right-panel {
+  flex: 2;
+  background-color: #f0f2f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.header {
+  width: 100%; /* Ensure header takes full width for positioning */
+  margin-bottom: 40px; /* Space below the logo */
+  padding-left: 20px; /* Adjust if logo is not centered by default */
+}
+
+.header .logo {
+  max-width: 150px;
+}
+
+/* Go back button specific styles */
+.go-back-button {
+  background: none;
+  border: none;
+  color: #555;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  align-self: flex-start; /* Align to the left within left-panel */
+  margin-left: 20px; /* Adjust to align with the form content */
+}
+
+.go-back-button .arrow-icon {
+  margin-right: 8px;
+  font-weight: bold;
+}
+
+.signup-form-section {
+  width: 100%;
+  max-width: 400px; /* Max width for the form */
+  padding: 0 20px; /* Add some horizontal padding */
+}
+
+.signup-form-section h2 {
+  text-align: left; /* Align title to the left */
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.email-signup-form .form-group {
+  margin-bottom: 20px;
+}
+
+.email-signup-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding-left: 10px; /* Space for the icon */
+}
+
+.input-with-icon .input-icon {
+  position: absolute;
+  left: 10px; /* Position icon inside */
+  color: #888;
+  font-size: 18px; /* Adjust icon size */
+}
+
+.input-with-icon input {
+  width: 100%;
+  padding: 12px 12px 12px 35px; /* Adjust padding for icon */
+  border: none; /* Remove default input border */
+  border-radius: 5px;
+  font-size: 16px;
+  outline: none; /* Remove outline on focus */
+}
+
+.input-with-icon .password-toggle-icon {
+  position: absolute;
+  right: 15px;
+  cursor: pointer;
+  font-size: 1.2em; /* Adjust eye icon size */
+  color: #888;
+}
+
+.password-hint {
+  font-size: 12px;
+  color: #888;
+  margin-top: 5px;
+  text-align: left;
+}
+
+.send-verification-button {
+  width: 100%;
+  padding: 15px;
+  background-color: #1a237e; /* A dark blue, similar to the image's button */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  margin-top: 30px;
+  transition: background-color 0.3s ease;
+}
+
+.send-verification-button:hover {
+  background-color: #0d125e; /* Darker shade on hover */
+}
+
+/* Image Gallery Styles (can be shared with App.css or kept here if specific) */
+.image-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 15px;
+  padding: 30px;
+  width: 100%;
+  max-width: 900px;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+}
+
+.gallery-item.main-item {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.overlay-card {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 10px 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+}
+
+.overlay-card .icon {
+  margin-right: 8px;
+  font-size: 1.2em;
+}
+
+.overlay-card .value {
+  font-size: 1.1em;
+}
+
+.overlay-card.top-left {
+  top: 15px;
+  left: 15px;
+}
+
+.overlay-card.bottom-right {
+  bottom: 15px;
+  right: 15px;
+}
