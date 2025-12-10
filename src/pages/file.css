@@ -1,0 +1,379 @@
+/* property details page*/
+
+body {
+    background-color: var(--bg-light-gray);
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.property-details-page-layout {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color); /* Ligne de séparation légère */
+}
+
+.back-link {
+    color: var(--secondary-color);
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.page-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--text-dark);
+}
+
+.header-actions button {
+    background-color: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin-left: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--text-dark);
+}
+
+.content-area {
+    display: flex;
+    gap: 30px;
+}
+
+.main-content {
+    flex: 2; /* Prend plus de place que la sidebar */
+}
+
+.sidebar-container {
+    flex: 1;
+    min-width: 300px; /* Largeur minimale de la colonne de droite */
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 200px 150px; /* Ajuster les hauteurs */
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.main-image {
+    grid-column: 1 / span 2;
+    background-color: #ccc;
+    background-size: cover;
+    border-radius: 8px;
+}
+
+.small-image {
+    background-color: #ccc;
+    background-size: cover;
+    border-radius: 8px;
+}
+
+.small-image:nth-child(2) {
+    grid-column: 3;
+    grid-row: 1;
+}
+
+.small-image:nth-child(3) {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.small-image.show-more {
+    grid-column: 2 / span 2;
+    grid-row: 2;
+    background-color: var(--bg-light-gray);
+    border: 1px dashed var(--border-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: var(--text-light);
+    cursor: pointer;
+}
+
+.info-tabs {
+    display: flex;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-light);
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.tab-button.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+    font-weight: bold;
+}
+
+.property-main-details h1 {
+    font-size: 24px;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.location-detail-page {
+    font-size: 14px;
+    color: var(--text-light);
+    margin-bottom: 20px;
+}
+
+.property-description {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-dark);
+    margin-bottom: 30px;
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: bold;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    font-size: 14px;
+}
+
+.detail-label {
+    color: var(--text-light);
+    margin: 0 0 2px 0;
+}
+
+.detail-value {
+    color: var(--text-dark);
+    font-weight: bold;
+    margin: 0;
+}
+
+.details-sidebar {
+    background-color: var(--bg-white);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.invest-box {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.tannit-label {
+    font-size: 12px;
+    color: var(--text-light);
+    margin: 0;
+}
+
+.tannit-amount {
+    font-size: 32px;
+    color: var(--text-dark);
+    margin: 5px 0;
+}
+
+.current-value {
+    font-size: 12px;
+    color: var(--text-light);
+    margin: 0;
+}
+
+.chart-placeholder {
+    height: 150px;
+    background-color: var(--bg-light-gray);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    /* Placeholder pour le graphique (ligne bleue sur fond gris) */
+    background: linear-gradient(to top, var(--secondary-color) 0%, transparent 50%);
+    opacity: 0.5;
+}
+
+.conversion-info {
+    border-top: 1px solid var(--border-color);
+    padding-top: 15px;
+    margin-bottom: 15px;
+}
+
+.conversion-price {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.converted-to {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-bottom: 10px;
+}
+
+.investor-details-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+}
+
+.remaining-sidebar {
+    color: orange;
+    font-weight: bold;
+}
+
+.investors-sidebar {
+    color: var(--text-light);
+}
+
+.amenities-row-sidebar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.amenity-icon-small {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #e6f0ff;
+    color: var(--secondary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.stats-box-sidebar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px dashed var(--border-color);
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    background-color: var(--bg-light-gray);
+}
+
+.stat-item {
+    font-size: 14px;
+    color: var(--text-light);
+}
+
+.stat-value {
+    font-weight: bold;
+    color: var(--text-dark);
+    margin-left: 5px;
+}
+
+.stat-separator-small {
+    height: 20px;
+    width: 1px;
+    background-color: var(--border-color);
+}
+
+.invest-button-sidebar {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.energy-class-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.energy-label, .energy-index-label {
+    color: var(--text-light);
+}
+
+.energy-class-value, .energy-index-value {
+    font-weight: bold;
+    color: var(--text-dark);
+}
+
+.energy-bar-container {
+    display: flex;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.energy-bar-segment {
+    flex: 1;
+    text-align: center;
+    padding: 8px 0;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+
+/* Couleurs des classes (simulées) */
+.a { background-color: #38c172; } /* Vert */
+.b { background-color: #5cb85c; }
+.c { background-color: #ffed4a; } /* Jaune */
+.d { background-color: #f6993f; } /* Orange */
+.e { background-color: #e3342f; } /* Rouge */
+.f { background-color: #cc2525; }
+.g { background-color: #990000; } /* Rouge foncé */
+
+.energy-bar-segment.active {
+    opacity: 1; /* Classe active est en pleine couleur */
+}
+
+/* Boîte Eco Friendly */
+.eco-friendly-box {
+    border: 1px dashed var(--green-eco);
+    background-color: rgba(92, 184, 92, 0.05); /* Vert très clair */
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.eco-title {
+    color: var(--green-eco);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    margin-top: 0;
+}
+
+.eco-title .icon {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+.eco-text {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-dark);
+}

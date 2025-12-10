@@ -778,12 +778,6 @@
   }
 }
 
-.nav-links {
-  display: flex;
-  gap: 25px;
-}
-
-
 .nav-item {
   display: inline-flex;
   align-items: center;
@@ -1929,30 +1923,6 @@ body {
     flex-direction: column;
 }
 
-.applied-filters {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.filter-label {
-    font-size: 14px;
-    color: var(--text-color-light);
-}
-
-.applied-filter-tag {
-  background-color: var(--primary-color);
-  color: white;
-  padding: 5px 10px;
-  padding-right: 5px;
-  border-radius: 6px;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  font-weight: 500;
-}
-
 .applied-filter-tag.invisible-tag {
     /* Style pour le 4ème tag vide */
     background: none;
@@ -1984,7 +1954,16 @@ body {
     font-size: 14px;
     color: var(--text-color-light);
 }
-
+.sort-button {
+    padding: 8px 15px;
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 14px;
+    color: var(--text-dark);
+    cursor: pointer;
+    font-weight: 500;
+}
 .sort-button {
     padding: 8px 15px;
     background-color: var(--card-bg);
@@ -2000,9 +1979,7 @@ body {
     margin-bottom: 30px;
 }
 
-/* ------------------------------------ */
-/* 4. GRILLE DES PROPRIÉTÉS (Reprise du code card) */
-/* ------------------------------------ */
+
 .property-list-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -2209,4 +2186,893 @@ body {
       flex-wrap: wrap;
       gap: 5px;
   }
+}
+
+.top-nav {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.nav-items {
+    display: flex;
+    background-color: white;
+    border-radius: 8px;
+    padding: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.nav-link {
+  padding: 8px 15px;
+  text-decoration: none;
+  color: var(--text-color-light);
+  font-weight: 500;
+  border-radius: 6px;
+  transition: all 0.2s;
+  font-size: 14px;
+}
+
+.filter-select, .advanced-filter-btn {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: white;
+  font-size: 14px;
+  cursor: pointer;
+  appearance: none; 
+}
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 250px; /* Taille du champ de recherche */
+}
+
+.search-icon-btn {
+    position: absolute;
+    right: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--text-light);
+}
+
+
+/* ------------------------------------ */
+/* 3. FILTRES APPLIQUÉS ET TRI */
+/* ------------------------------------ */
+.applied-filters-and-sort {
+    margin-bottom: 20px;
+}
+
+.applied-filters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.filter-label {
+    font-size: 14px;
+    color: var(--text-dark);
+    font-weight: bold;
+}
+
+.applied-filter-tag {
+  background-color: var(--bg-light-gray);
+  color: var(--text-dark);
+  border: 1px solid var(--border-color);
+  padding: 4px 10px;
+  padding-right: 5px;
+  border-radius: 20px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+}
+
+.sort-by-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+
+/* ------------------------------------ */
+/*         Preperty Details Page        */
+/* ------------------------------------ */
+
+
+:root {
+  --primary-color: #2c3e50; /* Bleu marine (bouton, titres) */
+  --secondary-color: #007bff; /* Bleu des icônes/liens */
+  --green-eco: #5cb85c;
+  --text-dark: #333;
+  --text-light: #6c757d;
+  --border-color: #e0e0e0;
+  --bg-light-gray: #f8f9fa;
+  --bg-white: #ffffff;
+}
+
+/* ------------------------------------ */
+/*         Property details v2          */
+/* ------------------------------------ */
+
+/* ================================================= */
+/* 1. Mise en Page Générale et Structure */
+/* ================================================= */
+.property-details-page-layout {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    color: var(--text-color);
+}
+
+.content-area {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.main-content {
+    flex: 2; /* Prend 2/3 de la largeur */
+    min-width: 0;
+}
+
+.sidebar-container {
+    flex: 1; /* Prend 1/3 de la largeur */
+}
+
+/* ================================================= */
+/* 2. En-tête (Header) */
+/* ================================================= */
+.details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.back-button {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.back-button:hover {
+    background-color: var(--bg-light-gray);
+    color: var(--text-color);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-location {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.action-btn {
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.action-btn:hover {
+    background-color: var(--bg-light-gray);
+}
+
+
+/* ================================================= */
+/* 3. GRILLE D'IMAGES (ImageGrid) */
+/* ================================================= */
+.image-grid {
+    display: grid;
+    /* Main-image prend 2 colonnes, les autres 1 colonne */
+    grid-template-columns: 2fr 1fr 1fr; 
+    grid-template-rows: 300px 150px; 
+    gap: 10px;
+    margin-bottom: 30px;
+    border-radius: 12px;
+    overflow: hidden; /* Pour contenir les coins arrondis */
+}
+
+.image-grid img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Assure que l'image couvre l'espace sans déformation */
+    border-radius: 8px; /* Appliquer sur chaque image */
+}
+
+.main-image {
+    grid-column: 1 / span 2;
+    grid-row: 1 ; /* L'image principale prend la place de 2x2 */
+    /* On utilise l'image small 1 pour la case 3/1, et small 2 pour 3/2 */
+}
+
+.small-image:nth-of-type(2) {
+    grid-column: 3;
+    grid-row: 1;
+}
+
+.small-image:nth-of-type(3) {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+
+.small-image.show-more {
+    grid-column: 2 / span 2;
+    grid-row: 2;
+    /* Style du bouton "Show More" */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+}
+
+.show-more-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Ombre sur l'image */
+    color: var(--bg-white);
+    font-weight: bold;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+}
+
+
+/* ================================================= */
+/* 4. Infos Principales et Onglets */
+/* ================================================= */
+.main-info-block {
+    margin-bottom: 20px;
+}
+
+.main-info-block h1 {
+    font-size: 32px;
+    margin-bottom: 5px;
+}
+
+.location-info {
+    font-size: 16px;
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Onglets */
+.details-tabs {
+    display: flex;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    color: var(--text-light);
+    transition: color 0.2s;
+    font-weight: 500;
+    position: relative;
+}
+
+.tab-btn.active {
+    color: var(--primary-color);
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary-color);
+}
+
+/* Contenu des onglets */
+.tab-content {
+    min-height: 200px;
+}
+
+.description-text {
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* Détails de propriété (General tab) */
+.property-details-section {
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.property-details-section h4 {
+    font-size: 18px;
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.details-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.details-row p {
+    flex: 1;
+    margin: 0;
+    padding-right: 20px;
+    border-right: 1px solid var(--border-color);
+    white-space: nowrap;
+}
+
+.details-row p:last-child {
+    border-right: none;
+    padding-right: 0;
+}
+
+.valuation {
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+
+/* ================================================= */
+/* 5. DÉTAILS ÉNERGÉTIQUES (EnergyDetails) */
+/* ================================================= */
+.energy-details-container {
+    padding: 20px;
+    background-color: var(--bg-light-gray);
+    border-radius: 8px;
+}
+
+.energy-details-container h3 {
+    margin-top: 0;
+    color: var(--text-color);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.energy-class-box, .energy-index-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.energy-class-box p, .energy-index-box p {
+    margin: 0;
+    font-weight: 500;
+}
+
+.energy-tag {
+    padding: 5px 10px;
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+}
+
+/* Couleurs des classes énergétiques */
+.energy-tag.a { background-color: #38a838; }
+.energy-tag.b { background-color: #72c842; }
+.energy-tag.c { background-color: #e4e34e; }
+.energy-tag.d { background-color: #f7a435; }
+.energy-tag.e { background-color: #f37e28; }
+.energy-tag.f { background-color: #ea4526; }
+.energy-tag.g { background-color: #a7231c; }
+
+/* Barre d'échelle */
+.energy-scale {
+    display: flex;
+    margin: 20px 0;
+    border-radius: 4px;
+    overflow: hidden;
+    height: 30px;
+}
+
+.scale-segment {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    transition: opacity 0.3s, transform 0.3s;
+    opacity: 0.5; /* Rendre les inactifs semi-transparents */
+}
+
+.scale-segment.active {
+    opacity: 1;
+    border: 3px solid black; /* Met en évidence la classe active */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+/* Couleurs des segments (doivent correspondre aux tags) */
+.scale-segment.a { background-color: #38a838; }
+.scale-segment.b { background-color: #72c842; }
+.scale-segment.c { background-color: #e4e34e; }
+.scale-segment.d { background-color: #f7a435; }
+.scale-segment.e { background-color: #f37e28; }
+.scale-segment.f { background-color: #ea4526; }
+.scale-segment.g { background-color: #a7231c; }
+
+
+/* Eco Friendly Box */
+.eco-friendly-box {
+    margin-top: 20px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 20px;
+}
+
+.eco-friendly-title {
+    font-weight: bold;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.eco-friendly-title .icon {
+    font-size: 1.2em;
+}
+
+.eco-friendly-text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-light);
+}
+
+/* ================================================= */
+/* 6. COLONNE LATÉRALE (Sidebar) */
+/* ================================================= */
+.sidebar-investment-box {
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-light);
+    padding: 25px;
+    position: sticky;
+    top: 20px; /* S'accroche en haut lors du défilement */
+}
+
+/* TANNIT Chart Placeholder */
+.tannit-value-chart {
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.chart-title {
+    color: var(--text-light);
+    margin: 0 0 5px 0;
+    font-size: 14px;
+}
+
+.current-value {
+    font-size: 36px;
+    margin: 0 0 5px 0;
+    color: var(--primary-color);
+}
+
+.chart-info {
+    font-size: 12px;
+    color: var(--text-light);
+    margin: 0;
+}
+
+/* Investment Stats */
+.main-investment-amount {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0;
+    color: var(--text-color);
+}
+
+.conversion-info {
+    color: var(--text-light);
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+.investors-count {
+    color: var(--primary-color);
+}
+
+/* Barre de progression (réutilise le style de PropertiesPage) */
+.progress-bar-container {
+    height: 8px;
+    background-color: var(--bg-light-gray);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--secondary-color);
+    transition: width 0.5s ease-in-out;
+}
+
+/* Rangée de stats avec icônes */
+.icon-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.icon-stat {
+    text-align: center;
+    padding: 10px 0;
+    border-right: 1px solid var(--border-color);
+}
+
+.icon-stat:last-child {
+    border-right: none;
+}
+
+.icon-stat .label {
+    display: block;
+    font-size: 12px;
+    color: var(--text-light);
+    margin-bottom: 3px;
+}
+
+.icon-stat .value {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.invest-button {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.invest-button:hover {
+    background-color: #1f4a31; /* Un peu plus foncé */
+}
+
+
+/* ================================================= */
+/* 7. Responsive Design (Ajustements pour Mobile/Tablette) */
+/* ================================================= */
+
+@media (max-width: 1024px) {
+    .content-area {
+        flex-direction: column;
+    }
+
+    .main-content, .sidebar-container {
+        flex: auto;
+        width: 100%;
+    }
+
+    .sidebar-investment-box {
+        position: static; /* Désactiver le sticky sur mobile */
+        top: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .image-grid {
+        grid-template-columns: 1fr; /* Une seule colonne */
+        grid-template-rows: repeat(4, 200px); /* 4 lignes de hauteur égale */
+    }
+    
+    .main-image, .small-image:nth-of-type(2), .small-image:nth-of-type(3), .small-image.show-more {
+        grid-column: 1 / span 1;
+        grid-row: auto;
+    }
+
+    .details-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .details-row p {
+        border-right: none;
+        padding-right: 0;
+        border-bottom: 1px dashed var(--border-color);
+        padding-bottom: 10px;
+    }
+    
+    .details-row p:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+}
+
+/* ================================================= */
+/*              confirm purchase page                */
+/* ================================================= */
+.confirm-purchase-page-layout {
+    max-width: 1200px; /* Plus étroit que la page de détails */
+    margin: 0 auto;
+    padding: 20px;
+    color: var(--text-color);
+}
+
+/* Header de la page */
+.confirm-header {
+    margin-bottom: 20px;
+}
+
+.back-button {
+    /* Style hérité ou personnalisé */
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+/* ================================================= */
+/* 2. Bloc de Sommaire (Property Summary) */
+/* ================================================= */
+.property-summary-block {
+    display: flex;
+    gap: 20px;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--bg-white);
+    margin-bottom: 30px;
+}
+
+.summary-image {
+    width: 250px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+.summary-details {
+    flex-grow: 1;
+}
+
+.summary-description {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-light);
+    margin-bottom: 10px;
+}
+
+.summary-price {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--text-color);
+    margin: 0 0 5px 0;
+}
+
+.summary-conversion {
+    font-size: 14px;
+    color: var(--text-light);
+    margin-bottom: 10px;
+}
+
+.summary-stats {
+    display: flex;
+    justify-content: flex-end; /* Aligner à droite comme sur l'image */
+    gap: 15px;
+    font-size: 14px;
+    color: var(--text-light);
+    margin-bottom: 10px;
+}
+
+.summary-stats .icon {
+    margin-right: 5px;
+}
+
+.summary-profitability {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.summary-profitability .profit-value {
+    color: var(--secondary-color);
+}
+
+
+/* ================================================= */
+/* 3. CALCULATEUR */
+/* ================================================= */
+.calculator-container {
+    padding: 30px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--bg-white);
+    box-shadow: var(--shadow-light);
+}
+
+.calculator-container h2 {
+    font-size: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* Row de stats du calculateur */
+.calculator-stats-row {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.calc-stat {
+    flex: 1;
+    padding: 0 10px;
+    border-right: 1px solid var(--border-color);
+}
+
+.calc-stat:last-child {
+    border-right: none;
+}
+
+.calc-label {
+    font-size: 14px;
+    color: var(--text-light);
+    margin: 0 0 5px 0;
+}
+
+.calc-value {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+/* Slider */
+.tannit-slider {
+    width: 100%;
+    margin-bottom: 30px;
+    /* Style de base pour les sliders (à customiser pour un meilleur look) */
+}
+
+
+/* Section d'entrée d'investissement */
+.investment-inputs .label-section {
+    font-size: 14px;
+    color: var(--text-light);
+    margin: 10px 0 5px 0;
+}
+
+.current-tannit-amount {
+    background-color: var(--bg-light-gray);
+    padding: 15px;
+    border-radius: 4px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.tannit-input-group {
+    display: flex;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.tannit-input {
+    flex-grow: 1;
+    border: none;
+    padding: 15px;
+    font-size: 16px;
+    outline: none;
+}
+
+.tannit-output {
+    padding: 15px;
+    background-color: var(--bg-light-gray);
+    color: var(--text-light);
+    font-weight: 500;
+    flex-shrink: 0;
+    width: 100px; /* Taille fixe pour l'affichage de la conversion */
+    text-align: right;
+}
+
+.tannit-note {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-bottom: 30px;
+}
+
+/* Bouton Invest (style hérité de la page de détails) */
+.calculator-container .invest-button {
+    width: 100%;
+}
+
+/* ================================================= */
+/* 4. Responsive Design */
+/* ================================================= */
+@media (max-width: 600px) {
+    .property-summary-block {
+        flex-direction: column;
+    }
+    .summary-image {
+        width: 100%;
+        height: 200px;
+    }
+    .calculator-stats-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .calc-stat {
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 15px;
+    }
+    .calc-stat:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
 }

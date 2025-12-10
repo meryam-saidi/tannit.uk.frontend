@@ -23,6 +23,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PaymentPage from './pages/PaymentPage';
 import TopUpTransactionPage from './pages/TopUpTransactionPage';
+import PropertyDetailsPage from './pages/PropertyDetailsPage';
+import ConfirmPurchasePage from './pages/ConfirmPurchasePage';
 
 function App() {
 
@@ -52,7 +54,8 @@ function App() {
             <Route path="/PropertiesPage" element={<PropertiesPage />} />
             <Route path="/PaymentPage" element={<PaymentPage />} />
             <Route path="/TopUpTransactionPage" element={<TopUpTransactionPage />} />
-
+            <Route path="/PropertyDetailsPage" element={<PropertyDetailsPage />} />
+            <Route path="/ConfirmPurchasePage" element={<ConfirmPurchasePage />} />
           </Route>
         </Route>
 
