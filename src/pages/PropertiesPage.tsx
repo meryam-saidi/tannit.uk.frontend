@@ -1,18 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import PropertyImageCarousel from "./PropertyImageCarousel";
 
 // --- Interfaces ---
-interface Property {
+export interface PropertyImage {
+  id: string;
+  propertyId: string;
+  imageUrl: string;
+  caption?: string;
+  isCover: boolean;
+  displayOrder: number;
+}
+
+export interface Property {
   id: string;
   name: string;
   description: string;
+
   totalValue: number;
   totalShares: number;
   availableShares: number;
   pricePerShare: number;
+
   address: string;
-  imageUrls: string[];
+  latitude?: number;
+  longitude?: number;
+
+  lotNumber: string;
+  lotArea: number;
+
+  gesEmission: number;
+  energyConsumption: number;
+  energyClass: string;
+
+  images: PropertyImage[];
+
 }
 
 // Composant Placeholder pour les icônes de services (Amenities)
@@ -21,95 +44,27 @@ const AmenityIcon: React.FC = () => (
 );
 
 // Carte de propriété (version mockée, indépendante de la base)
-const PropertyCard: React.FC<{ property?: Property }> = ({ property }) => {
+const PropertyCard: React.FC<{ property: Property }> = ({ property }) => {
   const navigate = useNavigate();
 
-  // Si aucune propriété n’est fournie, on utilise des valeurs mock
-  const mockProperty = {
-    title: "Modern Villa",
-    location: "London, UK",
-    priceK: 500,
-    convertedPrice: 10000,
-    remainingInvestment: 2500,
-    investors: 12,
-    profitability: 8,
-    returned: 25,
-    amenities: ['Y', 'L', 'D', 'C', 'B'], // 5 icônes de services
-    pricePerShare: 10.20,
-    // L'erreur est probablement causée par l'absence de ces champs :
-    area: 650, // sqft
-    targetProfitability: 3.5,
-    numberLot: 1,
-    energyClass: 'B',
-    energyIndex: 64, // KWh/m2/a
-    imageSources: [ // Chemins mockés
-        '/house1.jpg', 
-        '/house1.jpg',
-        '/house1.jpg',
-        '/house1.jpg',
-    ],
-     indicators: { value: 5000, percent: 50 },
-     tags: ["Eco-Friendly", "High Demand"]
-  };
-
-  const p = property
-    ? {
-        title: property.name,
-        location: property.address,
-        priceK: Math.round(property.totalValue / 1000),
-        convertedPrice: property.totalValue / 10, // juste pour mock
-        remainingInvestment: property.availableShares * property.pricePerShare,
-        investors: property.totalShares - property.availableShares,
-        profitability: 8,
-        returned: 25,
-        pricePerShare: property.totalValue / property.totalShares,
-        indicators: [{ value: property.totalValue, percent: 50 }, { value: 125, percent: 0.2  }, ],
-        tags: ["Investment", "Eco Friendly", "With credit"],
-        amenities: ['Y', 'L', 'D', 'C', 'B'],
-          // Assurez-vous que l'API fournit ces valeurs, sinon MOCKEZ-LES ICI AUSSI :
-          area: 650, // Si l'API ne fournit pas 'area', vous devez le mocker ici
-          targetProfitability: 3.5, // Si l'API ne fournit pas 'targetProfitability', vous devez le mocker ici
-          numberLot: 1, // Si l'API ne fournit pas 'numberLot', vous devez le mocker ici
-          energyClass: 'B', // Si l'API ne fournit pas 'energyClass', vous devez le mocker ici
-          energyIndex: 64, // Si l'API ne fournit pas 'energyIndex', vous devez le mocker ici
-          imageSources: [
-             // Mettez ici les chemins d'images de l'API si disponibles, sinon mockez-les.
-             property.imageUrls?.[0],
-             property.imageUrls?.[1],
-             property.imageUrls?.[2]
-          ],
-      }
-    : mockProperty;
-
   const progressPercent =
-    ((p.convertedPrice - p.remainingInvestment) / p.convertedPrice) * 100;
+    ((property.totalValue - property.availableShares * property.pricePerShare) / property.totalValue) * 100;
 
   const handleGoToPropertyDetailsClick = () => {
   // MODIFICATION IMPORTANTE : on passe l'objet 'p' dans le state de navigation
-    navigate('/PropertyDetailsPage', { state: { propertyData: p } });
+    navigate('/PropertyDetailsPage', { state: { propertyData: property } });
   };  
   
   return (
     <div className="property-card">
       <div className="card-image-container">
-        <img
-          src={p.imageSources?.[0]}
-          alt="Property Image"
-          className="card-image-placeholder"
-        />
-        {p.tags.map((tag) => (
-          <span
-            key={tag}
-            className={`tag ${tag.toLowerCase().replace(' ', '-')}`}
-          >
-            {tag}
-          </span>
-        ))}
+        <PropertyImageCarousel images={property.images} />
+
         <div className="image-indicators">
-          <span>{p.pricePerShare.toLocaleString()}£/share</span>
+          <span>{property.pricePerShare.toLocaleString()}£/share</span>
         </div>
 
-                {/* Tag Eco Friendly */}
+        {/* Tag Eco Friendly */}
         <span className="tag eco-friendly">
           <span className="icon">🌱</span> Eco Friendly
         </span>
@@ -122,18 +77,25 @@ const PropertyCard: React.FC<{ property?: Property }> = ({ property }) => {
       </div>
 
       <div className="card-body">
-        <h3>{p.title}</h3>
-        <p className="location">📍 {p.location}</p>
+        <h3>{property.name}</h3>
+        <p className="location">📍 {property.address}</p>
 
         <div className="price-investor-info">
-          <p className="price-main">{p.priceK}K £</p>
+          
+          <p className="price-main">{Math.round(property.totalValue / 1000)}K £</p>
+          
           <div className="investor-details">
             <span className="converted-price">
-              Converted to: {p.convertedPrice} Tannits
+              Converted to: {property.totalValue / 10} Tannits
             </span>
-            <span className="remaining-amount">{p.remainingInvestment} remaining</span>
-            <span className="investor-count">👤 {p.investors} Investors</span>
+            <span className="remaining-amount">
+              Remaining: {property.availableShares * property.pricePerShare} £
+            </span>
+            <span className="investor-count">
+              👥 {property.totalShares - property.availableShares} Investors
+            </span>
           </div>
+        
         </div>
 
         <div className="progress-bar-container">
@@ -146,11 +108,11 @@ const PropertyCard: React.FC<{ property?: Property }> = ({ property }) => {
         <div className="stats-row">
           <div className="stat">
             <p className="stat-label">Profitability</p>
-            <p className="stat-value">{p.profitability}%</p>
+            <p className="stat-value">25%</p>
           </div>
           <div className="stat">
             <p className="stat-label">Returned</p>
-            <p className="stat-value">{p.returned}%</p>
+            <p className="stat-value">5%</p>
           </div>
         </div>
 
@@ -220,12 +182,9 @@ const PropertiesPage: React.FC = () => {
       <div className="separator-line"></div>
 
       <div className="property-list-grid">
-        {properties.length > 0
-          ? properties.map((property) => (
-              <PropertyCard key={property.id} property={property} />
-            ))
-          : // Affiche quelques cartes mockées si pas encore de données
-            [1, 2, 3].map((i) => <PropertyCard key={i} />)}
+        {properties.map((p) => (
+          <PropertyCard key={p.id} property={p} />
+        ))}
       </div>
     </div>
   );

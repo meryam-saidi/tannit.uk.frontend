@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Property } from "../pages/PropertiesPage";
+import { PropertyImage } from "../pages/PropertiesPage";
+
+import Lightbox from "yet-another-react-lightbox";
+import Captions from "yet-another-react-lightbox/plugins/captions";
+
+
 // Assurez-vous d'avoir les dépendances 'react-icons' installées : npm install react-icons
 
+/*
 // --- Interfaces et Types pour les données reçues ---
 // J'ai structuré ceci pour correspondre aux données enrichies passées par PropertyCard.
 interface PropertyDetails {
@@ -29,6 +37,7 @@ interface PropertyDetails {
     energyClass: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G';
     energyIndex: number;
 }
+*/
 
 // --- Images Mockées (à adapter) ---
 // Ces chemins doivent pointer vers vos images dans le dossier /public
@@ -40,8 +49,11 @@ const MOCK_IMAGE_SOURCES = [
 ];
 
 // --- Composant : Grille d'Images (Dynamique) ---
-const ImageGrid: React.FC<{ images: string[] }> = ({ images }) => {
-    // S'assurer qu'on a au moins les 3 images nécessaires pour le layout
+const ImageGrid: React.FC<{ 
+  images: string[];
+  onImageClick: (index: number) => void;
+}> = ({ images, onImageClick }) => {
+
     const mainImage = images[0] || MOCK_IMAGE_SOURCES[0];
     const smallImage1 = images[1] || MOCK_IMAGE_SOURCES[1];
     const smallImage2 = images[2] || MOCK_IMAGE_SOURCES[2];
@@ -49,26 +61,41 @@ const ImageGrid: React.FC<{ images: string[] }> = ({ images }) => {
 
     return (
         <div className="image-grid">
-            {/* Image principale */}
-            <img src={mainImage} alt="Property main view" className="main-image" />
-            
-            {/* 3 autres images (ou placeholders) */}
-            <img src={smallImage1} alt="Property small view 1" className="small-image" />
-            <img src={smallImage2} alt="Property small view 2" className="small-image" />
-            
-            {/* Bouton "Show More Images" avec l'image 4 en arrière-plan (si vous utilisez le style de l'image) */}
-            <div 
+            <img
+                src={mainImage}
+                className="main-image"
+                onClick={() => onImageClick(0)}
+            />
+
+            <img
+                src={smallImage1}
+                className="small-image"
+                onClick={() => onImageClick(1)}
+            />
+
+            <img
+                src={smallImage2}
+                className="small-image"
+                onClick={() => onImageClick(2)}
+            />
+
+            <div
                 className="small-image show-more"
-                style={{ backgroundImage: `url(${showMoreImage})` }} // Optionnel: pour avoir une image de fond
+                style={{ backgroundImage: `url(${showMoreImage})` }}
+                onClick={() => onImageClick(3)}
             >
-                <div className="show-more-overlay">Show More Images</div>
+                <div className="show-more-overlay">
+                    Show More Images
+                </div>
             </div>
         </div>
     );
 };
 
+
 // --- Composant : Échelle Énergétique (Energy) ---
-const EnergyDetails: React.FC<{ energyClass: string; energyIndex: number }> = ({ energyClass, energyIndex }) => {
+const EnergyDetails: React.FC<{ energyClass: string; 
+    energyIndex: number }> = ({ energyClass, energyIndex }) => {
 // Les classes sont A, B, C, D, E, F, G
 const classes = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
     
@@ -108,20 +135,22 @@ const classes = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
 };
 
 // Définissez l'interface pour les props de Sidebar, qui étend PropertyDetails
-interface SidebarProps extends PropertyDetails {
-    onInvestClick: (propertyData: PropertyDetails) => void; 
+interface SidebarProps extends Property {
+    onInvestClick: (propertyData: Property) => void; 
 }
 
 // --- Composant : Colonne Latérale (Sidebar d'Investissement) ---
 const Sidebar: React.FC<SidebarProps> = (data) => {
-    const { convertedPrice, remainingInvestment, investors, profitability, returned } = data;
+    //const { convertedPrice, remainingInvestment, investors, profitability, returned } = data;
     const { onInvestClick, ...serializableData } = data;
     // Valeur actuelle de TANNIT (mockée)
     const tannitValue = 10.20; 
     
     // Calculs
-    const remainingShares = Math.round(remainingInvestment / data.pricePerShare);
-    const progressPercent = ((convertedPrice - remainingInvestment) / convertedPrice) * 100;
+    const convertedPrice = data.totalValue / 10;
+    const remainingShares = data.availableShares * data.pricePerShare;
+    const progressPercent =     ((data.totalValue - data.availableShares * data.pricePerShare) / data.totalValue) * 100;
+
     
     return (
         <div className="sidebar-investment-box">
@@ -139,8 +168,8 @@ const Sidebar: React.FC<SidebarProps> = (data) => {
                 <p className="conversion-info">Converted for usable Tannits</p>
 
                 <div className="stat-row">
-                    <span>{remainingInvestment.toLocaleString()} remaining</span>
-                    <span className="investors-count">👤 {investors} Investors</span>
+                    <span>{remainingShares} remaining</span>
+                    <span className="investors-count">👤 {data.totalShares - data.availableShares} Investors</span>
                 </div>
                 
                 {/* Barre de progression */}
@@ -152,7 +181,7 @@ const Sidebar: React.FC<SidebarProps> = (data) => {
                     {/* Les icônes de la rangée (Profitability, N/A, Returned) */}
                     <div className="icon-stat">
                         <span className="label">Profitability</span>
-                        <span className="value">{profitability}%</span>
+                        <span className="value">25%</span>
                     </div>
                     <div className="icon-stat">
                         <span className="label">N/A</span>
@@ -160,12 +189,12 @@ const Sidebar: React.FC<SidebarProps> = (data) => {
                     </div>
                     <div className="icon-stat">
                         <span className="label">Returned</span>
-                        <span className="value">{returned}%</span>
+                        <span className="value">5%</span>
                     </div>
                 </div>
                 <button 
                     className="invest-button" 
-                    onClick={() => onInvestClick(serializableData as PropertyDetails)} // Appel corrigé
+                    onClick={() => onInvestClick(serializableData as Property)} // Appel corrigé
                 >
                     Invest →
                 </button>
@@ -182,7 +211,11 @@ const PropertyDetailsPage: React.FC = () => {
     const [activeTab, setActiveTab] = useState('General');
     
     // Tente de récupérer les données passées via le state de navigation
-    const data = (location.state as { propertyData: PropertyDetails })?.propertyData;
+    const data = (location.state as { propertyData: Property })?.propertyData;
+
+    //images gallery
+    const [lightboxOpen, setLightboxOpen] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     // Si les données sont manquantes (ex: accès direct par URL), on redirige ou affiche un message d'erreur
     if (!data) {
@@ -195,14 +228,12 @@ const PropertyDetailsPage: React.FC = () => {
         );
     }
     
-    const handleGoToConfirmPurchaseClick = (propertyData: PropertyDetails) => {
+    const handleGoToConfirmPurchaseClick = (propertyData: Property) => {
     // MODIFICATION IMPORTANTE : on passe l'objet 'p' dans le state de navigation
         //navigate('/ConfirmPurchasePage', { state: { propertyData: p } });
         navigate('/ConfirmPurchasePage', { state: { propertyData } });
     };
     
-
-
     const renderContent = () => {
         switch (activeTab) {
             case 'General':
@@ -215,19 +246,19 @@ const PropertyDetailsPage: React.FC = () => {
                             <h4>Property details</h4>
                             <div className="details-row">
                                 {/* L'erreur est probablement ici : */}
-                                <p>Lot area: {data.area.toLocaleString()} sqft</p> 
+                                <p>Lot area: {data.lotArea} sqft</p> 
                                 {/* ou ici : */}
-                                <p>Target Profitability: {data.targetProfitability}%</p>
+                                <p>Target Profitability: 30%</p>
                                 {/* ou ici : */}
-                                <p>Number Lot: {data.numberLot}</p>
+                                <p>Number Lot: {data.lotNumber}</p>
                             </div>
                             {/* ou ici : */}
-                            <p className="valuation">Property Valuation: {data.priceK}K £</p>
+                            <p className="valuation">Property Valuation: {Math.round(data.totalValue / 1000)}K £</p>
                         </div>
                         
                         <EnergyDetails 
                             energyClass={data.energyClass} 
-                            energyIndex={data.energyIndex} 
+                            energyIndex={data.energyConsumption}
                         />
                     </>
                 );
@@ -241,6 +272,10 @@ const PropertyDetailsPage: React.FC = () => {
                 return null;
         }
     };
+
+    const lightboxImages = data.images.map(img => ({
+    src: img.imageUrl
+    }));
 
     return (
         <div className="property-details-page-layout">
@@ -260,13 +295,19 @@ const PropertyDetailsPage: React.FC = () => {
             <div className="content-area">
                 <main className="main-content">
                     {/* Grille d'Images */}
-                    <ImageGrid images={data.imageUrls}  /> 
+                    <ImageGrid 
+                    images={data.images.map(img => img.imageUrl)} 
+                    onImageClick={(index) => {
+                        setCurrentIndex(index);
+                        setLightboxOpen(true);
+                    }}
+                    />
                     
                     {/* Infos Principales */}
                     <div className="main-info-block">
-                        <h1>{data.title}</h1>
+                        <h1>{data.name}</h1>
                         <p className="location-info">
-                             {data.location}
+                             {data.address}
                         </p>
                     </div>
 
@@ -294,6 +335,15 @@ const PropertyDetailsPage: React.FC = () => {
                     <Sidebar {...data} onInvestClick={handleGoToConfirmPurchaseClick}/>
                 </aside>
             </div>
+            <Lightbox
+                open={lightboxOpen}
+                close={() => setLightboxOpen(false)}
+                index={currentIndex}
+                slides={lightboxImages}
+                on={{
+                    view: ({ index }) => setCurrentIndex(index)
+                }}
+            />
         </div>
     );
 };

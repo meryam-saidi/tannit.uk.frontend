@@ -1,37 +1,21 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa'; // Import pour l'icône de retour
+import { Property } from "../pages/PropertiesPage";
+import PropertyImageCarousel from './PropertyImageCarousel';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
-// --- Interfaces (Copiez PropertyDetails de l'autre fichier) ---
-interface PropertyDetails {
-    title: string;
-    location: string;
-    description: string;
-    priceK: number;
-    convertedPrice: number;
-    remainingInvestment: number;
-    investors: number;
-    profitability: number;
-    returned: number;
-    pricePerShare: number;
-    tags: string[];
-    indicators: Array<{ value: number; percent: number }>;
-    amenities: string[];
-    imageSources: string[];
-    area: number;
-    targetProfitability: number;
-    numberLot: number;
-    energyClass: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G';
-    energyIndex: number;
-}
 
 // Composant de la page de confirmation
 const ConfirmPurchasePage: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    
+    const { balance } = useSelector((s: RootState) => s.account);
+    const [error, setError] = useState<string | null>(null);
+
     // Récupération des données
-    const property = (location.state as { propertyData: PropertyDetails })?.propertyData;
+    const property = (location.state as { propertyData: Property })?.propertyData;
     
     // État local pour le montant à investir (en TANNITs)
     const [tannitAmount, setTannitAmount] = useState<string>('');
@@ -48,7 +32,7 @@ const ConfirmPurchasePage: React.FC = () => {
     }
 
     // Calculs basés sur les données (Mockés ou basés sur property.remainingInvestment)
-    const remainingShares = Math.round(property.remainingInvestment / property.pricePerShare);
+    const remainingShares = property.availableShares * property.pricePerShare;
     
     // --- Calculs pour la section Calculateur (Mockés comme dans l'image) ---
     const revenuePerMonth = 2642; // £
@@ -74,19 +58,15 @@ const ConfirmPurchasePage: React.FC = () => {
 
             {/* Bloc d'information de la propriété */}
             <div className="property-summary-block">
-                <img 
-                    src={property.imageSources[0]} 
-                    alt={property.title} 
-                    className="summary-image" 
-                />
+                <PropertyImageCarousel images={property.images} />
                 <div className="summary-details">
                     <p className="summary-description">
                         {property.description}
                     </p>
                     <p className="description"> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Excepturi, rerum. Architecto iste, mollitia fugiat explicabo veritatis quo, modi reiciendis incidunt accusamus facilis dolorem laborum neque doloremque dolore nesciunt tempora minima.</p>
-                    <h2 className="summary-price">{property.convertedPrice.toLocaleString()} £</h2>
+                    <h2 className="summary-price">{property.totalValue} £</h2>
                     <p className="summary-conversion">
-                        Converted to: {property.convertedPrice} Tannits
+                        Converted to: {property.totalValue / 10} Tannits
                     </p>
                     <div className="progress-bar-container">
                         <div className="progress-bar" ></div> {/* <div className="progress-bar" style={{ width: `${progressPercent}%` }}></div>  */}
@@ -97,13 +77,13 @@ const ConfirmPurchasePage: React.FC = () => {
                             <span className="icon">🪙</span> {remainingShares} remaining
                         </span>
                         <span className="investors-summary">
-                            <span className="icon">👤</span> {property.investors} Investors
+                            <span className="icon">👤</span> {property.totalShares - property.availableShares} Investors
                         </span>
                     </div>
 
                     <div className="summary-profitability">
-                        <span className="profit-value">Profitability {property.profitability}%</span>
-                        <span className="returned-value">Returned {property.returned}%</span>
+                        <span className="profit-value">Profitability 25%</span>
+                        <span className="returned-value">Returned 5%</span>
                     </div>
                 </div>
             </div>
@@ -141,7 +121,7 @@ const ConfirmPurchasePage: React.FC = () => {
                 <div className="investment-inputs">
                     <p className="label-section">You have</p>
                     <div className="current-tannit-amount">
-                        0 TANNIT
+                        { balance } TANNIT
                     </div>
                     
                     <p className="label-section">You will Invest</p>
@@ -150,20 +130,44 @@ const ConfirmPurchasePage: React.FC = () => {
                             type="number"
                             placeholder="Enter amount in TANNIT"
                             value={tannitAmount}
-                            onChange={(e) => setTannitAmount(e.target.value)}
+                            min={0}
+                            max={Math.min(balance, remainingShares)}
+                            onChange={(e) => {
+                                const value = Number(e.target.value);
+
+                                if (value > balance) {
+                                    setError("Insufficient TANNIT balance");
+                                    setTannitAmount(balance.toString());
+                                } else if (value < 0) {
+                                    setTannitAmount('0');
+                                    setError(null);
+                                } else {
+                                    setTannitAmount(e.target.value);
+                                    setError(null);
+                                }
+                            }}
                             className="tannit-input"
                         />
                         <span className="tannit-output">
                             ={investmentInGBP.toFixed(2)} £
                         </span>
                     </div>
-                    
+                    {error && <p className="error-text">{error}</p>}
                     <p className="tannit-note">
                         Note: 1 TANNIT = 10 £
                     </p>
                 </div>
 
-                <button className="invest-button" onClick={handleConfirm} disabled={!tannitAmount || parseFloat(tannitAmount) <= 0}>
+                <button  
+                    className="invest-button"
+                    onClick={handleConfirm}
+                    disabled={
+                        !tannitAmount || 
+                        parseFloat(tannitAmount) <= 0 ||   //afficher des messages d'erreur
+                        parseFloat(tannitAmount) > balance ||
+                        Number(tannitAmount) > remainingShares
+                    }
+                    >
                     Invest
                 </button>
             </div>

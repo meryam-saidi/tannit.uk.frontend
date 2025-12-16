@@ -26,6 +26,9 @@ import TopUpTransactionPage from './pages/TopUpTransactionPage';
 import PropertyDetailsPage from './pages/PropertyDetailsPage';
 import ConfirmPurchasePage from './pages/ConfirmPurchasePage';
 
+import "yet-another-react-lightbox/styles.css";
+import "yet-another-react-lightbox/plugins/captions.css";
+
 function App() {
 
   return (
